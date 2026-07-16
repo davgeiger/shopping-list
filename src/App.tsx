@@ -1,20 +1,29 @@
-import { Button } from "@/components/ui/button"
+import { useLocalStorage } from "./hooks/useLocalStorage"
+import ShoppingInput from "./components/ShoppingInput"
+import ShoppingList from "./components/ShoppingList"
+import type { ShoppingItem } from "./types/shopping"
+import { Toaster } from "@/components/ui/sonner"
 
-export function App() {
+function App() {
+  const [shoppingList, setShoppingList] = useLocalStorage<ShoppingItem[]>(
+    "shopping-list",
+    []
+  )
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
+    <>
+      <div className="mx-auto mt-2 w-96 text-center">
+        <h1 className="mb-5 text-3xl">Einkaufsliste</h1>
+        <ShoppingInput
+          setShoppingList={setShoppingList}
+          shoppingList={shoppingList}
+        />
+        <ShoppingList
+          setShoppingList={setShoppingList}
+          shoppingList={shoppingList}
+        />
+        <Toaster richColors />
       </div>
-    </div>
+    </>
   )
 }
 
